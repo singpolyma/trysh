@@ -19,7 +19,7 @@ echo "Hmm.  We put a duplicate line in there this time.  That's no good."
 printf "This time, the ${BOLD}uniq${NORMAL} command comes to our resue.  "
 echo "It takes sorted lines, and only prints the unique ones."
 echo
-printf "How do we get the sorted lines from the output of ${BOLD}sort${NORMAL}"
+printf "How do we get the sorted lines from the output of ${BOLD}sort${NORMAL} "
 printf "to the input of ${BOLD}uniq${NORMAL}?  We could save the ouput of "
 printf "${BOLD}sort${NORMAL} to a file, then have ${BOLD}uniq${NORMAL} read "
 echo "from that file, but that seems like too much work."
