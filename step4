@@ -1,0 +1,27 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Having a command print something out is fine if you want to read it now."
+echo "What if you want to save it for later?"
+
+OUTPUT=""
+while [ "`cat saved`" != "1st thing" ]; do
+	printf "Try typing ${BOLD}echo \"1st thing\" > saved${NORMAL}.\n"
+	fakeshell
+done
+
+./step5

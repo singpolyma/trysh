@@ -1,0 +1,29 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Great!  Wasn't that easy?"
+echo
+echo "Commands actually take a list of things, called ${BOLD}arguments${NORMAL} or ${BOLD}parameters${NORMAL}."
+printf "${BOLD}echo${NORMAL} just prints out the whole list, but if you wanted to give it just one item, you could put double quotes around the item.\n"
+
+OUTPUT=""
+while [ "$OUTPUT" != "Hello, world!" ]; do
+	printf "Try typing ${BOLD}echo \"Hello, world!\"${NORMAL}.\n"
+	fakeshell
+done
+
+./step3

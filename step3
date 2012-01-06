@@ -1,0 +1,30 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Alright!"
+echo
+printf "Just so you know, an argument that is all text is called a ${BOLD}string${NORMAL}.\n"
+echo "A string with spaces in it can be surrounded by either single or double quotes."
+printf "But how do you put a quote inside a string, then?  You put a backslash${BOLD} \\ ${NORMAL}before it.\n"
+
+OUTPUT=""
+while [ "$OUTPUT" != "Hello, \"world\"!" ]; do
+	printf "Try typing ${BOLD}echo \"Hello, \\\"world\\\"!\"${NORMAL}.\n"
+	fakeshell
+done
+
+./step4

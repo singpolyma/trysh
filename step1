@@ -1,0 +1,31 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Welcome to the TrySh tutorial!"
+echo
+echo "The first thing you need to know to operate your shell effectively is how to run a command."
+echo "To run a command that has been installed on your system, simply type its name, followed by the information you want the command to use."
+printf "One such command is called ${BOLD}echo${NORMAL}.\n"
+printf "${BOLD}echo${NORMAL} simply prints out whatever information you pass it.\n"
+
+OUTPUT=""
+while [ "$OUTPUT" != "Hello, world" ]; do
+	printf "Try typing ${BOLD}echo Hello, world${NORMAL}.\n"
+	fakeshell
+done
+
+./step2

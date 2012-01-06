@@ -1,0 +1,49 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "In order to save our output back into the same file we're going to "
+printf "need a new concept.  ${BOLD}Variables${NORMAL} are names you can "
+echo "store stuff in temporarily."
+echo
+printf "You store somethnig in a variable by saying ${BOLD}NAME=STRING${NORMAL}\n"
+echo "So, for example:"
+printf "${BOLD}"
+echo "user_name=bob"
+echo "aSentence=\"This is a sentence.\""
+printf "${NORMAL}"
+echo
+printf "You can store the output of a command in a varable by using the "
+printf "${BOLD}\$()${NORMAL} operator, like this:\n"
+printf "${BOLD}output=\"\$(echo hello)\"${NORMAL}\n"
+echo
+printf "You read the value out of a variable with ${BOLD}\${NAME}${NORMAL} "
+echo "anywhere in a string, like so:"
+printf "${BOLD}echo \"Hello, \${user_name}!\"${NORMAL}"
+echo
+printf "One more thing, "
+printf "in order to enter two commands on the same line, you can seperate "
+printf "them with the ${BOLD};${NORMAL}\n"
+
+OUTPUT=""
+while [ "`cat saved`" != "1st thing
+2nd thing" ]; do
+	printf "Try typing ${BOLD}output=\"\$(sort < saved | uniq)\"; "
+	printf "echo \"\${output}\" > saved; cat saved${NORMAL}.\n"
+	fakeshell
+done
+
+echo "That's all we have so far, more soon."

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "What?  The file is empty!  What happened?"
+printf "Remember how the output redirection operator erases a file before "
+printf "writing to it?  It turns out that it erases the file even before the "
+echo "input redirection operator gets a chance to read it!"
+echo "There is a well-known way around this, which we will see later."
+
+OUTPUT=""
+while [ "`cat saved`" != "2nd thing
+1st thing
+2nd thing" ]; do
+	printf "Try typing ${BOLD}echo \"2nd thing\" > saved${NORMAL}.\n"
+	printf "Then, ${BOLD}echo \"1st thing\" >> saved${NORMAL}.\n"
+	printf "Then, ${BOLD}echo \"2nd thing\" >> saved${NORMAL}.\n"
+	fakeshell
+	fakeshell
+	fakeshell
+done
+
+./step11

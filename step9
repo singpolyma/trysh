@@ -1,0 +1,34 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "So, we now have the lines back in the right order.  "
+printf "What do you think ${BOLD}<${NORMAL} does?\n"
+printf "${BOLD}<${NORMAL} is called the "
+printf "${BOLD}input redirection operator${NORMAL}, and it sends the contents "
+printf "of a file into a command.\n"
+echo
+echo "Lets try to save the sorted lines back in the file."
+
+OUTPUT=""
+while [ -n "`cat saved`" ]; do
+	printf "Try typing ${BOLD}sort < saved > saved${NORMAL}.  "
+	printf "Then, print the contents of ${BOLD}saved${NORMAL}.\n"
+	fakeshell
+	fakeshell
+done
+
+./step10

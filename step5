@@ -1,0 +1,35 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Where did our string go?  It hasn't been printed out.  It has been saved."
+printf "Stuff printed by commands is called ${BOLD}output${NORMAL}, so "
+printf "${BOLD}>${NORMAL} is called the ${BOLD}output redirection "
+printf "operator${NORMAL} because it takes ouput you would normally see, and "
+echo "puts it in a file instead."
+echo
+printf "It's time to learn about another command!  ${BOLD}cat${NORMAL} is a "
+echo "command that just takes a list of files, and prints out their contents."
+
+OUTPUT=""
+printf "Try to figure out how to see what is in our ${BOLD}saved${NORMAL} file.\n"
+fakeshell
+while [ "$OUTPUT" != "1st thing" ]; do
+	printf "Try typing ${BOLD}cat saved${NORMAL}.\n"
+	fakeshell
+done
+
+./step6

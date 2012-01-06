@@ -1,0 +1,31 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Hooray!  Both lines are there now!  Except, they're backwards."
+printf "The ${BOLD}>>${NORMAL} operator ${BOLD}appends${NORMAL} to a file, "
+echo "which means that it adds new content at the end."
+echo "So, we want to sort the lines in this file."
+echo "Luckily, there is a command for doing just that."
+
+OUTPUT=""
+while [ "$OUTPUT" != "1st thing
+2nd thing" ]; do
+	printf "Try typing ${BOLD}sort < saved${NORMAL}.\n"
+	fakeshell
+done
+
+./step9

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "Oh.  It looks like our original output got erased.  Whenever you use "
+printf "the output redirection operator, it erases the file before putting "
+printf "anything in it.\nLuckily, there is another operator, "
+printf "${BOLD}>>${NORMAL}, which lets us add new output to a file.\n"
+
+OUTPUT=""
+while [ "$OUTPUT" != "2nd thing
+1st thing" ]; do
+	printf "Try typing ${BOLD}echo \"1st thing\" >> saved${NORMAL}.  "
+	printf "Then print the contents of ${BOLD}saved${NORMAL}.\n"
+	fakeshell
+	fakeshell
+done
+
+./step8

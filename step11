@@ -1,0 +1,28 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+OUTPUT=""
+printf "Try to print the sorted contents of ${BOLD}saved${NORMAL}.\n"
+fakeshell
+while [ "$OUTPUT" != "1st thing
+2nd thing
+2nd thing" ]; do
+	printf "Try typing ${BOLD}sort < saved${NORMAL}.\n"
+	fakeshell
+done
+
+./step12

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND"`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo "Hmm.  We put a duplicate line in there this time.  That's no good."
+printf "This time, the ${BOLD}uniq${NORMAL} command comes to our resue.  "
+echo "It takes sorted lines, and only prints the unique ones."
+echo
+printf "How do we get the sorted lines from the output of ${BOLD}sort${NORMAL}"
+printf "to the input of ${BOLD}uniq${NORMAL}?  We could save the ouput of "
+printf "${BOLD}sort${NORMAL} to a file, then have ${BOLD}uniq${NORMAL} read "
+echo "from that file, but that seems like too much work."
+echo
+printf "${BOLD}|${NORMAL}, the ${BOLD}pipe operator${NORMAL} comes to our "
+printf "rescue.  If you place a pipe between two commands, it connects the "
+echo "output of the first one with the input of the second one."
+
+OUTPUT=""
+printf "Try to print the unique sorted lines of ${BOLD}saved${NORMAL}.\n"
+fakeshell
+while [ "$OUTPUT" != "1st thing
+2nd thing" ]; do
+	printf "Try typing ${BOLD}sort < saved | uniq${NORMAL}.\n"
+	fakeshell
+done
+
+./step13
