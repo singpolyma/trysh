@@ -7,6 +7,7 @@ fakeshell() {
 	read -p "$ " -r COMMAND
 	IFS="$oldifs"
 	if [ "$COMMAND" = "exit" ]; then exit; fi
+	if [ "$COMMAND" = "cat" ]; then COMMAND="cat --help"; fi
 	OUTPUT="`eval "$COMMAND"`"
 	echo "$OUTPUT"
 	echo
