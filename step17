@@ -1,0 +1,35 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND" 2>&1`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "${BOLD}if [COMMAND]; then [COMMANDS]; else [COMMANDS]; fi${NORMAL} "
+printf "is the way we get the shell to run different commands depending "
+printf "on whether the command fails or not.  There are several commands "
+printf "designed specifically for use with these sorts of constructs "
+printf "including ${BOLD}true${NORMAL}, which always succeeds, "
+printf "${BOLD}false${NORMAL}, which alsways fails, and "
+printf "${BOLD}test${NORMAL} (also known as ${BOLD}[${NORMAL}), "
+printf "which tests some condition and succeeds or fails based on if "
+printf "the condition is true or not."
+echo; echo
+
+OUTPUT=""
+while ! echo "$OUTPUT" | grep '^worked' > /dev/null; do
+	printf "Try typing ${BOLD}if test \"hai\" = \"hai\"; then echo worked; else echo not worked; fi${NORMAL}\n"
+	fakeshell
+done
+
+./step18

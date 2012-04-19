@@ -1,0 +1,26 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND" 2>&1`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+echo
+
+OUTPUT=""
+while ! echo "$OUTPUT" | grep 'No such file' > /dev/null; do
+	printf "Try typing ${BOLD}mv nothere here${NORMAL}\n"
+	fakeshell
+done
+
+./step15

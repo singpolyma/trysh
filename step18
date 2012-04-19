@@ -1,0 +1,31 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND" 2>&1`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "Because it is used so much, ${BOLD}test${NORMAL} has another "
+printf "name, ${BOLD}[${NORMAL}. It works exactly the same when you use "
+printf "this other name, except that you have to pass it a "
+printf "${BOLD}]${NORMAL} as the last argument, which sounds a bit weird, "
+printf "but makes things look nice."
+echo; echo
+
+OUTPUT=""
+while ! echo "$OUTPUT" | grep '^worked' > /dev/null; do
+	printf "Try typing ${BOLD}if [ \"hai\" = \"hai\" ]; then echo worked; else echo not worked; fi${NORMAL}\n"
+	fakeshell
+done
+
+echo "That's all we have so far, more soon."

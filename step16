@@ -1,0 +1,32 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND" 2>&1`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "Right after the error message, a number is printed. The number "
+printf "is not a 0, so this indicates an error.  The shell lets you "
+printf "get the ${BOLD}exit status code${NORMAL} of the most recent "
+printf "command using ${BOLD}\$?${NORMAL}."
+echo; echo
+printf "What can we do with this?  Well, let's start with something "
+printf "simple.\n"
+
+OUTPUT=""
+while ! echo "$OUTPUT" | grep 'not worked' > /dev/null; do
+	printf "Try typing ${BOLD}if mv nothere here; then echo worked; else echo not worked; fi${NORMAL}\n"
+	fakeshell
+done
+
+./step17

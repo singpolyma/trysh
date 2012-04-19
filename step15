@@ -1,0 +1,38 @@
+#!/bin/sh
+
+fakeshell() {
+	echo
+	oldifs="$IFS"
+	IFS=""
+	read -p "$ " -r COMMAND
+	IFS="$oldifs"
+	if [ "$COMMAND" = "exit" ]; then exit; fi
+	OUTPUT="`eval "$COMMAND" 2>&1`"
+	echo "$OUTPUT"
+	echo
+}
+
+BOLD="\033[1m"
+NORMAL="\033[0m"
+
+printf "${BOLD}mv${NORMAL} is the command to move or rename a file. "
+printf "When we try to move a file that doesn't exist, we get an error. "
+printf "How can we detect this error automatically?"
+echo; echo
+printf "Well, we could try to search the output for the error message, "
+printf "but what if the message changes?  Or what if there is a "
+printf "different error?"
+echo; echo
+printf "To solve this problem, commands have what is called an "
+printf "${BOLD}exit status code${NORMAL}, which is a number they give "
+printf "to the shell when they exit to say if they had an error or not. "
+printf "0 always means 'success' and any other number is some kind of "
+printf "error."
+
+OUTPUT=""
+while ! echo "$OUTPUT" | grep 'No such file' > /dev/null; do
+	printf "Try typing ${BOLD}mv nothere here; echo \$?${NORMAL}\n"
+	fakeshell
+done
+
+./step16
