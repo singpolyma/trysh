@@ -24,7 +24,7 @@ printf "${BOLD}echo${NORMAL} simply prints out whatever information you pass it.
 
 OUTPUT=""
 while [ "$OUTPUT" != "Hello, world" ]; do
-	printf "Try typing ${BOLD}echo Hello, world${NORMAL}.\n"
+	printf "Try typing ${BOLD}echo Hello, world${NORMAL}\n"
 	fakeshell
 done
 
